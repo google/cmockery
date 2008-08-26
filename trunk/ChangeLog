@@ -1,0 +1,5 @@
+Tue Aug 26 10:18:02 2008  Google Inc. <opensource@google.com>
+
+	* cmockery: initial release:
+	  A lightweight library to simplify and generalize the process of 
+	  writing unit tests for C applications.
