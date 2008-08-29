@@ -35,6 +35,15 @@ LIBRARY_DIR=.
 OBJECT_DIR=.
 !ENDIF # OBJECT_DIR
 
+# Tools
+!IFNDEF LIBTOOL
+LIBTOOL=lib.exe
+!ENDIF # LIBTOOL
+
+!IFNDEF LINK
+LINK=link.exe
+!ENDIF # LINK
+
 # Source directories.
 LIBRARY_SOURCE_DIRECTORY=..\src
 EXAMPLE_SOURCE_DIRECTORY=..\src\example
@@ -48,12 +57,10 @@ CC_COMMAND_UNIT_TEST=$(CC_COMMAND) /DUNIT_TESTING=1
 LIBLINKFLAGS=/NOLOGO /MACHINE:x86 /SUBSYSTEM:console
 
 # Library archiver flags and command.
-LIBRARY_ARCHIVER=lib.exe
 LIBFLAGS=$(LIBLINKFLAGS)
-LIB_COMMAND=$(LIBRARY_ARCHIVER) $(LIBFLAGS) $(**) /OUT:$(@)
+LIB_COMMAND=$(LIBTOOL) $(LIBFLAGS) $(**) /OUT:$(@)
 
 # Linker flags and command. 
-LINK=link.exe
 LFLAGS=$(LIBLINKFLAGS) libcmt.lib kernel32.lib /NODEFAULTLIB:libc.lib
 LINK_COMMAND=$(LINK) $(LFLAGS) $(**) /OUT:$(@)
 
