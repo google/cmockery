@@ -1,3 +1,9 @@
+Fri Aug 29 10:50:46 2008  Google Inc. <opensource@google.com>
+
+	* cmockery: version 0.11
+	* Made it possible to specify executable, library and object output 
+	  directories.
+
 Tue Aug 26 10:18:02 2008  Google Inc. <opensource@google.com>
 
 	* cmockery: initial release:

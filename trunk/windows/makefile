@@ -22,9 +22,24 @@
 # Run "nmake" to build the cmockery library and example applications.
 # Run "nmake clean" to delete all files built by this makefile.
 
+# Target directories.
+!IFNDEF EXECUTABLE_DIR
+EXECUTABLE_DIR=.
+!ENDIF # EXECUTABLE_DIR
+
+!IFNDEF LIBRARY_DIR
+LIBRARY_DIR=.
+!ENDIF # LIBRARY_DIR
+
+!IFNDEF OBJECT_DIR
+OBJECT_DIR=.
+!ENDIF # OBJECT_DIR
+
+# Source directories.
 LIBRARY_SOURCE_DIRECTORY=..\src
 EXAMPLE_SOURCE_DIRECTORY=..\src\example
 
+# Compiler flags and commands.
 CFLAGS=/nologo /c /D_WIN32_WINNT=0x501 /I$(LIBRARY_SOURCE_DIRECTORY)\google \
 	/I$(EXAMPLE_SOURCE_DIRECTORY)
 CC_COMMAND=$(CC) $(CFLAGS) $(**) /Fo$(@)
@@ -32,108 +47,165 @@ CC_COMMAND_UNIT_TEST=$(CC_COMMAND) /DUNIT_TESTING=1
 
 LIBLINKFLAGS=/NOLOGO /MACHINE:x86 /SUBSYSTEM:console
 
+# Library archiver flags and command.
 LIBRARY_ARCHIVER=lib.exe
 LIBFLAGS=$(LIBLINKFLAGS)
 LIB_COMMAND=$(LIBRARY_ARCHIVER) $(LIBFLAGS) $(**) /OUT:$(@)
 
+# Linker flags and command. 
 LINK=link.exe
 LFLAGS=$(LIBLINKFLAGS) libcmt.lib kernel32.lib /NODEFAULTLIB:libc.lib
 LINK_COMMAND=$(LINK) $(LFLAGS) $(**) /OUT:$(@)
 
 .SUFFIXES: .exe .lib .obj .c
 
-all: cmockery.lib calculator.exe calculator_test.exe allocate_module_test.exe \
-	assert_macro_test.exe customer_database_test.exe key_value_test.exe \
-	product_database_test.exe run_tests.exe
+all: $(EXECUTABLE_DIR) $(LIBRARY_DIR) $(OBJECT_DIR) \
+	$(LIBRARY_DIR)\cmockery.lib examples
+
+$(EXECUTABLE_DIR):
+	mkdir $@
+
+!IF "$(LIBRARY_DIR)" != "$(EXECUTABLE_DIR)"
+$(LIBRARY_DIR):
+	mkdir $*
+!ENDIF
+
+!IF "$(OBJECT_DIR)" != "$(LIBRARY_DIR)" && \
+	"$(OBJECT_DIR)" != "$(EXECUTABLE_DIR)"
+$(OBJECT_DIR):
+	mkdir $@
+!ENDIF
+
+examples: \
+	$(EXECUTABLE_DIR)\calculator.exe \
+	$(EXECUTABLE_DIR)\calculator_test.exe \
+	$(EXECUTABLE_DIR)\allocate_module_test.exe \
+	$(EXECUTABLE_DIR)\assert_macro_test.exe \
+	$(EXECUTABLE_DIR)\customer_database_test.exe \
+	$(EXECUTABLE_DIR)\key_value_test.exe \
+	$(EXECUTABLE_DIR)\product_database_test.exe \
+	$(EXECUTABLE_DIR)\run_tests.exe
 
 clean:
 	-cmd /c "@for %A in (\
-		cmockery.lib cmockery.obj \
-		calculator.exe calculator.obj \
-		calculator_test.exe calculator_test.obj \
-			calculator_test-calculator.obj \
-		allocate_module_test.exe allocate_module_test.obj \
-			allocate_module.obj \
-		assert_macro_test.exe assert_macro_test.obj \
-			assert_macro.obj \
-		customer_database_test.exe customer_database_test.obj \
-			customer_database.obj \
-		key_value_test.exe key_value_test.obj key_value.obj \
-		product_database_test.exe product_database_test.obj \
-			product_database.obj \
-		run_tests.exe run_tests.obj) do @del %A 2>NUL"
+		$(LIBRARY_DIR)\cmockery.lib \
+			$(OBJECT_DIR)\cmockery.obj \
+		$(EXECUTABLE_DIR)\calculator.exe \
+			$(OBJECT_DIR)\calculator.obj \
+		$(EXECUTABLE_DIR)\calculator_test.exe \
+			$(OBJECT_DIR)\calculator_test.obj \
+			$(OBJECT_DIR)\calculator_test-calculator.obj \
+		$(EXECUTABLE_DIR)\allocate_module_test.exe \
+			$(OBJECT_DIR)\allocate_module_test.obj \
+			$(OBJECT_DIR)\allocate_module.obj \
+		$(EXECUTABLE_DIR)\assert_macro_test.exe \
+			$(OBJECT_DIR)\assert_macro_test.obj \
+			$(OBJECT_DIR)\assert_macro.obj \
+		$(EXECUTABLE_DIR)\customer_database_test.exe \
+			$(OBJECT_DIR)\customer_database_test.obj \
+			$(OBJECT_DIR)\customer_database.obj \
+		$(EXECUTABLE_DIR)\key_value_test.exe \
+			$(OBJECT_DIR)\key_value_test.obj \
+			$(OBJECT_DIR)\key_value.obj \
+		$(EXECUTABLE_DIR)\product_database_test.exe \
+			$(OBJECT_DIR)\product_database_test.obj \
+			$(OBJECT_DIR)\product_database.obj \
+		$(EXECUTABLE_DIR)\run_tests.exe \
+			$(OBJECT_DIR)\run_tests.obj) do @del %A 2>NUL"
+	-rmdir $(EXECUTABLE_DIR) $(OBJECT_DIR) $(LIBRARY_DIR) 2>NUL
 
 # Rules for the cmockery library.
-cmockery.lib: cmockery.obj
-cmockery.obj: $(LIBRARY_SOURCE_DIRECTORY)\cmockery.c
+$(LIBRARY_DIR)\cmockery.lib: $(OBJECT_DIR)\cmockery.obj
+$(OBJECT_DIR)\cmockery.obj: $(LIBRARY_SOURCE_DIRECTORY)\cmockery.c
 
 # Rules for the calculator application.
-calculator.exe: calculator.obj
+$(EXECUTABLE_DIR)\calculator.exe: $(OBJECT_DIR)\calculator.obj
 
-calculator.obj: $(EXAMPLE_SOURCE_DIRECTORY)\calculator.c
+$(OBJECT_DIR)\calculator.obj: $(EXAMPLE_SOURCE_DIRECTORY)\calculator.c
 	$(CC_COMMAND)
 
 # Rules for the calculator test application.
-calculator_test.exe: calculator_test.obj calculator_test-calculator.obj \
-                     cmockery.lib
+$(EXECUTABLE_DIR)\calculator_test.exe: \
+		$(OBJECT_DIR)\calculator_test.obj \
+		$(OBJECT_DIR)\calculator_test-calculator.obj \
+		$(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-calculator_test.obj: $(EXAMPLE_SOURCE_DIRECTORY)\calculator_test.c
+$(OBJECT_DIR)\calculator_test.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\calculator_test.c
 
-calculator_test-calculator.obj: $(EXAMPLE_SOURCE_DIRECTORY)\calculator.c
+$(OBJECT_DIR)\calculator_test-calculator.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\calculator.c
 	$(CC_COMMAND_UNIT_TEST)
 
 # Sample code applications.
-allocate_module_test.exe: allocate_module_test.obj allocate_module.obj \
-		cmockery.lib
+$(EXECUTABLE_DIR)\allocate_module_test.exe: \
+		$(OBJECT_DIR)\allocate_module_test.obj \
+		$(OBJECT_DIR)\allocate_module.obj \
+		$(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-allocate_module_test.obj: $(EXAMPLE_SOURCE_DIRECTORY)\allocate_module_test.c
-allocate_module.obj: $(EXAMPLE_SOURCE_DIRECTORY)\allocate_module.c
+$(OBJECT_DIR)\allocate_module_test.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\allocate_module_test.c
+$(OBJECT_DIR)\allocate_module.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\allocate_module.c
 
-assert_macro_test.exe: assert_macro_test.obj assert_macro.obj \
-		cmockery.lib
+$(EXECUTABLE_DIR)\assert_macro_test.exe: \
+		$(OBJECT_DIR)\assert_macro_test.obj \
+		$(OBJECT_DIR)\assert_macro.obj \
+		$(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-assert_macro_test.obj: $(EXAMPLE_SOURCE_DIRECTORY)\assert_macro_test.c
-assert_macro.obj: $(EXAMPLE_SOURCE_DIRECTORY)\assert_macro.c
+$(OBJECT_DIR)\assert_macro_test.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\assert_macro_test.c
+$(OBJECT_DIR)\assert_macro.obj: $(EXAMPLE_SOURCE_DIRECTORY)\assert_macro.c
 
-customer_database_test.exe: customer_database_test.obj customer_database.obj \
-		cmockery.lib
+$(EXECUTABLE_DIR)\customer_database_test.exe: \
+		$(OBJECT_DIR)\customer_database_test.obj \
+		$(OBJECT_DIR)\customer_database.obj \
+		$(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-customer_database_test.obj: \
-		$(EXAMPLE_SOURCE_DIRECTORY)\customer_database_test.c
-customer_database.obj: $(EXAMPLE_SOURCE_DIRECTORY)\customer_database.c
+$(OBJECT_DIR)\customer_database_test.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\customer_database_test.c
+$(OBJECT_DIR)\customer_database.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\customer_database.c
 
-key_value_test.exe: key_value_test.obj key_value.obj \
-		cmockery.lib
+$(EXECUTABLE_DIR)\key_value_test.exe: \
+		$(OBJECT_DIR)\key_value_test.obj \
+		$(OBJECT_DIR)\key_value.obj \
+		$(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-key_value_test.obj: $(EXAMPLE_SOURCE_DIRECTORY)\key_value_test.c
-key_value.obj: $(EXAMPLE_SOURCE_DIRECTORY)\key_value.c
+$(OBJECT_DIR)\key_value_test.obj: $(EXAMPLE_SOURCE_DIRECTORY)\key_value_test.c
+$(OBJECT_DIR)\key_value.obj: $(EXAMPLE_SOURCE_DIRECTORY)\key_value.c
 
-product_database_test.exe: product_database_test.obj product_database.obj \
-		cmockery.lib
+$(EXECUTABLE_DIR)\product_database_test.exe: \
+		$(OBJECT_DIR)\product_database_test.obj \
+		$(OBJECT_DIR)\product_database.obj \
+		$(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-product_database_test.obj: $(EXAMPLE_SOURCE_DIRECTORY)\product_database_test.c
-product_database.obj: $(EXAMPLE_SOURCE_DIRECTORY)\product_database.c
+$(OBJECT_DIR)\product_database_test.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\product_database_test.c
+$(OBJECT_DIR)\product_database.obj: \
+	$(EXAMPLE_SOURCE_DIRECTORY)\product_database.c
 
-run_tests.exe: run_tests.obj cmockery.lib
+$(EXECUTABLE_DIR)\run_tests.exe: \
+		$(OBJECT_DIR)\run_tests.obj $(LIBRARY_DIR)\cmockery.lib
 	$(LINK_COMMAND)
 
-run_tests.obj: $(EXAMPLE_SOURCE_DIRECTORY)\run_tests.c
+$(OBJECT_DIR)\run_tests.obj: $(EXAMPLE_SOURCE_DIRECTORY)\run_tests.c
 
 # Inference rules.
-.obj.exe:
+{$(OBJECT_DIR)\}.obj{$(EXECUTABLE_DIR)\}.exe:
 	$(LINK_COMMAND)
 
-.obj.lib:
+{$(OBJECT_DIR)\}.obj{$(LIBRARY_DIR)\}.lib:
 	$(LIB_COMMAND)
 
-{$(LIBRARY_SOURCE_DIRECTORY)\}.c{}.obj:
+{$(LIBRARY_SOURCE_DIRECTORY)\}.c{$(OBJECT_DIR)\}.obj:
 	$(CC_COMMAND)
 
-{$(EXAMPLE_SOURCE_DIRECTORY)\}.c{}.obj:
+{$(EXAMPLE_SOURCE_DIRECTORY)\}.c{$(OBJECT_DIR)\}.obj:
 	$(CC_COMMAND_UNIT_TEST)
