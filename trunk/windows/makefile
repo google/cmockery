@@ -49,20 +49,20 @@ LIBRARY_SOURCE_DIRECTORY=..\src
 EXAMPLE_SOURCE_DIRECTORY=..\src\example
 
 # Compiler flags and commands.
-CFLAGS=/nologo /c /D_WIN32_WINNT=0x501 /I$(LIBRARY_SOURCE_DIRECTORY)\google \
+CC_COMMAND=$(CC) /nologo /c /D_WIN32_WINNT=0x501 \
+	/I$(LIBRARY_SOURCE_DIRECTORY)\google $(CFLAGS) $(**) /Fo$(@)
+CC_COMMAND_UNIT_TEST=$(CC_COMMAND) /DUNIT_TESTING=1 \
 	/I$(EXAMPLE_SOURCE_DIRECTORY)
-CC_COMMAND=$(CC) $(CFLAGS) $(**) /Fo$(@)
-CC_COMMAND_UNIT_TEST=$(CC_COMMAND) /DUNIT_TESTING=1
 
-LIBLINKFLAGS=/NOLOGO /MACHINE:x86 /SUBSYSTEM:console
+LIBLINKFLAGS=/NOLOGO
 
 # Library archiver flags and command.
-LIBFLAGS=$(LIBLINKFLAGS)
-LIB_COMMAND=$(LIBTOOL) $(LIBFLAGS) $(**) /OUT:$(@)
+LIB_COMMAND=$(LIBTOOL) $(LIBLINKFLAGS) $(LIBFLAGS) $(**) /OUT:$(@)
 
 # Linker flags and command. 
-LFLAGS=$(LIBLINKFLAGS) libcmt.lib kernel32.lib /NODEFAULTLIB:libc.lib
-LINK_COMMAND=$(LINK) $(LFLAGS) $(**) /OUT:$(@)
+LINK_COMMAND=$(LINK) $(LIBLINKFLAGS) /SUBSYSTEM:console \
+	libcmt.lib kernel32.lib /NODEFAULTLIB:libc.lib \
+	$(LFLAGS) $(**) /OUT:$(@)
 
 .SUFFIXES: .exe .lib .obj .c
 
