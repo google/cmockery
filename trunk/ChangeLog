@@ -1,3 +1,9 @@
+Mon Sep 15 17:21:22 2008 Google Inc. <opensource@google.com>
+	* cmockery: version 0.12
+	* Made it possible to specify additional compiler, lib tool and link 
+	flags on Windows.
+	* Added Windows makefile to the tar ball.
+
 Fri Aug 29 10:50:46 2008  Google Inc. <opensource@google.com>
 
 	* cmockery: version 0.11
