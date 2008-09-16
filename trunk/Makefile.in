@@ -263,7 +263,9 @@ AM_CPPFLAGS = -I$(top_srcdir)/src
 googleincludedir = $(includedir)/google
 googleinclude_HEADERS = src/google/cmockery.h
 docdir = $(prefix)/share/doc/$(PACKAGE)-$(VERSION)
-dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README doc/index.html
+dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README doc/index.html \
+		windows/makefile
+
 lib_LTLIBRARIES = libcmockery.la
 TESTS = 
 TESTS_ENVIRONMENT = CMOCKERY_ROOTDIR = $(top_srcdir)
@@ -843,7 +845,7 @@ check-TESTS: $(TESTS)
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/doc $(distdir)/m4 $(distdir)/packages $(distdir)/packages/rpm $(distdir)/src $(distdir)/src/google
+	$(mkdir_p) $(distdir)/doc $(distdir)/m4 $(distdir)/packages $(distdir)/packages/rpm $(distdir)/src $(distdir)/src/google $(distdir)/windows
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

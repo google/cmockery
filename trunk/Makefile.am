@@ -25,7 +25,8 @@ docdir = $(prefix)/share/doc/$(PACKAGE)-$(VERSION)
 ## This is for HTML and other documentation you want to install.
 ## Add your documentation files (in doc/) in addition to these
 ## top-level boilerplate files.  Also add a TODO file if you have one.
-dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README doc/index.html
+dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README doc/index.html \
+		windows/makefile
 
 ## The libraries (.so's) you want to install
 lib_LTLIBRARIES =
