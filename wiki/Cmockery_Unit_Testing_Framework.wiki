@@ -411,7 +411,7 @@ DatabaseConnection* connect_to_database(const char * const url,
 {{{
 #include <stddef.h>
 #include <stdio.h>
-#include [#database.h <database.h>]
+#include <database.h>
 #ifdef _WIN32
 #define snprintf _snprintf
 #endif // _WIN32
@@ -445,7 +445,7 @@ unsigned int get_customer_id_by_name(
 #include <stddef.h>
 #include <setjmp.h>
 #include <cmockery.h>
-#include [#database.h <database.h>]
+#include <database.h>
 
 
 extern DatabaseConnection* connect_to_customer_database();
@@ -518,7 +518,7 @@ no more parameter values are queued a test failure occurs.
 ====Using expect_`*`()====
 [http://cmockery.googlecode.com/svn/trunk/doc/../src/example/product_database.c product_database.c]
 {{{
-#include [#database.h <database.h>]
+#include <database.h>
 
 // Connect to the database containing customer information.
 DatabaseConnection* connect_to_product_database() {
@@ -531,7 +531,7 @@ DatabaseConnection* connect_to_product_database() {
 #include <stddef.h>
 #include <setjmp.h>
 #include <cmockery.h>
-#include [#database.h <database.h>]
+#include <database.h>
 
 extern DatabaseConnection* connect_to_product_database();
 
