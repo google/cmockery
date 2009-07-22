@@ -2,6 +2,7 @@
 
 
 
+
 =Cmockery Unit Testing Framework=
 
 Cmockery is a lightweight library that is used to author C unit tests.
@@ -14,7 +15,7 @@ Contents
  * [#Failure_Conditions Failure Conditions]
  * [#Assertions Assertions]
   * [#Assert_Macros Assert Macros]
- * [#Memory_Allocation Dynamic Memory Allocation]
+ * [#Dynamic_Memory_Allocation Dynamic Memory Allocation]
  * [#Mock_Functions Mock functions]
   * [#Return_Values Return Values]
   * [#Checking_Parameters Checking Parameters]
@@ -115,7 +116,7 @@ failure...
 
  * [#Assertions Assertions]
  * [#Exception_Handling Exceptions]
- * [#Memory_Allocation Memory leaks]
+ * [#Dynamic_Memory_Allocation Memory leaks]
  * [#Test_State Mismatched setup and tear down functions]
  * [#Return_Values Missing mock return values]
  * [#Return_Values Unused mock return values]
