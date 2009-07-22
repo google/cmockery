@@ -9,16 +9,16 @@ Cmockery is a lightweight library that is used to author C unit tests.
 Contents
  * [#Motivation Motivation]
  * [#Overview Overview]
- * [#TestExecution Test Execution]
- * [#ExceptionHandling Exception Handling]
- * [#FailureConditions Failure Conditions]
+ * [#Test_Execution Test Execution]
+ * [#Exception_Handling Exception Handling]
+ * [#Failure_Conditions Failure Conditions]
  * [#Assertions Assertions]
-  * [#AssertMacros Assert Macros]
- * [#MemoryAllocation Dynamic Memory Allocation]
- * [#MockFunctions Mock functions]
-  * [#MockFunctionsReturnValues Return Values]
-  * [#MockFunctionsCheckingParameters Checking Parameters]
- * [#TestState Test State]
+  * [#Assert_Macros Assert Macros]
+ * [#Memory_Allocation Dynamic Memory Allocation]
+ * [#Mock_Functions Mock functions]
+  * [#Return_Values Return Values]
+  * [#Checking_Parameters Checking Parameters]
+ * [#Test_State Test State]
  * [#Example Example]
 
 
@@ -114,13 +114,13 @@ The following events will result in the Cmockery library signalling a test
 failure...
 
  * [#Assertions Assertions]
- * [#ExceptionHandling Exceptions]
- * [#MemoryAllocation Memory leaks]
- * [#TestState Mismatched setup and tear down functions]
- * [#MockFunctionsReturnValues Missing mock return values]
- * [#MockFunctionsReturnValues Unused mock return values]
- * [#MockFunctionsCheckingParameters Missing expected parameter values]
- * [#MockFunctionsCheckingParameters Unused expected parameter values]
+ * [#Exception_Handling Exceptions]
+ * [#Memory_Allocation Memory leaks]
+ * [#Test_State Mismatched setup and tear down functions]
+ * [#Return_Values Missing mock return values]
+ * [#Return_Values Unused mock return values]
+ * [#Checking_Parameters Missing expected parameter values]
+ * [#Checking_Parameters Unused expected parameter values]
 
 
 
@@ -129,7 +129,7 @@ failure...
 Runtime assert macros like the standard C library's *assert()* should
 be redefined in modules being tested to use Cmockery's *mock_assert()*
 function.  Normally *mock_assert()* signals a
-[#FailureConditions test failure].  If a function is called using
+[#Failure_Conditions test failure].  If a function is called using
 the *expect_assert_failure()* macro, any calls to *mock_assert()*
 within the function will result in the execution of the test.  If no
 calls to *mock_assert()* occur during the function called via
@@ -277,7 +277,7 @@ tested by Cmockery should replace calls to *malloc()*, *calloc()* and
 *free()* to *test_malloc()*, *test_calloc()* and
 *test_free()* respectively.  Each time a block is deallocated using
 *test_free()* it is checked for corruption, if a corrupt block is found
-a [#FailureConditions test failure] is signalled.  All blocks
+a [#Failure_Conditions test failure] is signalled.  All blocks
 allocated using the *test_`*`()* allocation functions are tracked by the
 Cmockery library.  When a test completes if any allocated blocks (memory leaks)
 remain they are reported and a test failure is signalled.
