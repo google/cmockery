@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,14 +27,14 @@ extern unsigned int get_customer_id_by_name(
 unsigned int mock_query_database(
         DatabaseConnection* const connection, const char * const query_string,
         void *** const results) {
-  *results = (void**)mock();
+    *results = (void**)((unsigned)mock());
     return (unsigned int)mock();
 }
 
 // Mock of the connect to database function.
 DatabaseConnection* connect_to_database(const char * const database_url,
                                         const unsigned int port) {
-    return (DatabaseConnection*)mock();
+    return (DatabaseConnection*)((unsigned)mock());
 }
 
 void test_connect_to_customer_database(void **state) {

@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,7 @@ DatabaseConnection* connect_to_database(const char * const url,
                                         const unsigned int port) {
     check_expected(url);
     check_expected(port);
-    return (DatabaseConnection*)mock();
+    return (DatabaseConnection*)((unsigned)mock());
 }
 
 void test_connect_to_product_database(void **state) {
