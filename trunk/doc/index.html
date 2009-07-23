@@ -227,8 +227,8 @@ const char* get_status_code_string(const unsigned int status_code) {
 
 unsigned int string_to_status_code(const char* const status_code_string) {
     unsigned int i;
-    for (i = 0; i < sizeof(status_code_string) / sizeof(status_code_string[0]);
-         i++) {
+    for (i = 0; i < sizeof(status_code_strings) /
+                    sizeof(status_code_strings[0]); i++) {
         if (strcmp(status_code_strings[i], status_code_string) == 0) {
             return i;
         }
@@ -714,5 +714,5 @@ are provided as an example of Cmockery's features discussed in this document.
 
 <hr>
 <address></address>
-<!-- hhmts start --> Last modified: Tue Aug 26 09:33:31 PDT 2008 <!-- hhmts end -->
+<!-- hhmts start --> Last modified: Mon Jul  6 12:21:30 PDT 2009 <!-- hhmts end -->
 </body> </html>
