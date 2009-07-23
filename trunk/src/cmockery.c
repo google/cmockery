@@ -651,7 +651,7 @@ void* _mock(const char * const function, const char* const file,
 void _will_return(const char * const function_name, const char * const file, 
                   const int line, const void* const value, const int count) {
 	SymbolValue * const return_value = malloc(sizeof(*return_value));
-	assert_true(count > 0);
+	assert_true(count > 0 || count == -1);
 	return_value->value = value;
 	set_source_location(&return_value->location, file, line);
 	add_symbol_value(&global_function_result_map_head, &function_name, 1,
