@@ -726,9 +726,9 @@ static int value_in_set_display_error(
 		size_t i;
 		for (i = 0; i < size_of_set; i++) {
 			if (set[i] == value) {
-				if (invert) {
-					succeeded = 0;
-				}
+				// If invert = 0 and item is found, succeeded = 1.
+				// If invert = 1 and item is found, succeeded = 0.
+				succeeded = !succeeded;
 				break;
 			}
 		}
