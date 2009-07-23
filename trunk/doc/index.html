@@ -74,9 +74,8 @@ is complete <b>run_tests()</b> performs various checks to determine whether
 the test succeeded.</p>
 
 <h4>Using run_tests()</h4>
-<listing>
 <a href="../src/example/run_tests.c">run_tests.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
@@ -117,10 +116,8 @@ failure...
   <li><a href="#TestState">Mismatched setup and tear down functions</a></li>
   <li><a href="#MockFunctionsReturnValues">Missing mock return values</a></li>
   <li><a href="#MockFunctionsReturnValues">Unused mock return values</a></li>
-  <li><a href="#MockFunctionsCheckingParameters">Missing expected parameter
-                                                 values</a></li>
-  <li><a href="#MockFunctionsCheckingParameters">Unused expected parameter
-                                                 values</a></li>
+  <li><a href="#MockFunctionsCheckingParameters">Missing expected parameter values</a></li>
+  <li><a href="#MockFunctionsCheckingParameters">Unused expected parameter values</a></li>
 </ul>
 </p>
 
@@ -135,9 +132,8 @@ calls to <b>mock_assert()</b> occur during the function called via
 <b>expect_assert_failure()</b> a test failure is signalled.</p>
 
 <h4>Using mock_assert()</h4>
-<listing>
 <a href="../src/example/assert_module.c">assert_module.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;assert.h&gt;
 
 // If unit testing is enabled override assert with mock_assert().
@@ -159,9 +155,9 @@ void decrement_value(int * const value) {
         *value --;
     }
 }
-
+</listing>
 <a href="../src/example/assert_module_test.c">assert_module_test.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
@@ -210,9 +206,8 @@ caused the assertion failure which increases data visibility aiding
 debugging of failing test cases.</p>
 
 <h4>Using assert_{type}_equal() macros</h4>
-<listing>
 <a href="../src/example/assert_macro.c">assert_macro.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;string.h&gt;
 
 static const char* status_code_strings[] = {
@@ -235,9 +230,9 @@ unsigned int string_to_status_code(const char* const status_code_string) {
     }
     return ~0U;
 }
-
+</listing>
 <a href="../src/example/assert_macro_test.c">assert_macro_test.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
@@ -286,9 +281,8 @@ which means memory corruption from a single test case could potentially cause
 the test application to exit prematurely.</p>
 
 <h4>Using Cmockery's Allocators</h4>
-<listing>
 <a href="../src/example/allocate_module.c">allocate_module.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;malloc.h&gt;
 
 #if UNIT_TESTING
@@ -318,10 +312,9 @@ void buffer_underflow() {
     memory[-1] = '!';
     free(memory);
 }
-
-
+</listing>
 <a href="../src/example/allocate_module_test.c">allocate_module_test.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
@@ -381,9 +374,8 @@ return value.  In addition this allows the specification of return values for
 multiple calls to a mock function.</p>
 
 <h4>Using will_return()</h4>
-<listing>
 <a name="../src/example/database.h" href="database.h">database.h</a>
--------------------------------------------------------------------------------
+<listing>
 typedef struct DatabaseConnection DatabaseConnection;
 
 /* Function that takes an SQL query string and sets results to an array of
@@ -405,13 +397,12 @@ struct DatabaseConnection {
 // Connect to a database.
 DatabaseConnection* connect_to_database(const char * const url,
                                         const unsigned int port);
-
-
+</listing>
 <a href="../src/example/customer_database.c">customer_database.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stddef.h&gt;
 #include &lt;stdio.h&gt;
-#include <a href="#database.h">&lt;database.h&gt;</a>
+#include &lt;database.h&gt;
 #ifdef _WIN32
 #define snprintf _snprintf
 #endif // _WIN32
@@ -438,15 +429,14 @@ unsigned int get_customer_id_by_name(
     }
     return (unsigned int)results[0];
 }
-
-
+</listing>
 <a href="../src/example/customer_database_test.c">customer_database_test.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
 #include &lt;cmockery.h&gt;
-#include <a href="#database.h">&lt;database.h&gt;</a>
+#include &lt;database.h&gt;
 
 
 extern DatabaseConnection* connect_to_customer_database();
@@ -515,23 +505,22 @@ test failure is signalled.  In addition if check_expected() is called and
 no more parameter values are queued a test failure occurs.</p>
 
 <h4>Using expect_*()</h4>
-<listing>
 <a href="../src/example/product_database.c">product_database.c</a>
--------------------------------------------------------------------------------
-#include <a href="#database.h">&lt;database.h&gt;</a>
+<listing>
+#include &lt;database.h&gt;
 
 // Connect to the database containing customer information.
 DatabaseConnection* connect_to_product_database() {
     return connect_to_database("products.abcd.org", 322);
 }
-
+</listing>
 <a href="../src/example/product_database_test.c">product_database_test.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
 #include &lt;cmockery.h&gt;
-#include <a href="#database.h">&lt;database.h&gt;</a>
+#include &lt;database.h&gt;
 
 extern DatabaseConnection* connect_to_product_database();
 
@@ -591,9 +580,8 @@ specified by the <b>unit_test_teardown()</b> or
 executed for a test case even when it fails.</p>
 
 <h4>Using unit_test_setup_teardown()</h4>
-<listing>
 <a href="../src/example/key_value.c">key_value.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stddef.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -633,9 +621,9 @@ void sort_items_by_key() {
     qsort(key_values, number_of_key_values, sizeof(*key_values),
           key_value_compare_keys);
 }
-
+</listing>
 <a href="../src/example/key_value_test.c">key_value_test.c</a>
--------------------------------------------------------------------------------
+<listing>
 #include &lt;stdarg.h&gt;
 #include &lt;stddef.h&gt;
 #include &lt;setjmp.h&gt;
@@ -714,5 +702,5 @@ are provided as an example of Cmockery's features discussed in this document.
 
 <hr>
 <address></address>
-<!-- hhmts start --> Last modified: Mon Jul  6 12:21:30 PDT 2009 <!-- hhmts end -->
+<!-- hhmts start --> Last modified: Mon Jul 20 15:57:27 PDT 2009 <!-- hhmts end -->
 </body> </html>
