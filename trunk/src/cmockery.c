@@ -131,8 +131,8 @@ typedef void (*CleanupListValue)(const void *value, void *cleanup_value_data);
 // Structure used to check the range of integer types.
 typedef struct CheckIntegerRange {
     CheckParameterEvent event;
-    int minimum;
-    int maximum;
+    LargestIntegralType minimum;
+    LargestIntegralType maximum;
 } CheckIntegerRange;
 
 // Structure used to check whether an integer value is in a set.
