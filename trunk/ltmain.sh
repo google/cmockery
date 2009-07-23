@@ -1,3 +1,8 @@
+# NOTE(csilvers): This file (ltmain.sh) is taken from
+#   http://ftp.gnu.org/gnu/libtool/libtool-1.5.22.tar.gz
+# with the following patch applied:
+#   http://www.marcuscom.com/downloads/patch-ltmain.sh
+
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
@@ -43,7 +48,7 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION="1.5.22 Debian 1.5.22-2"
+VERSION=1.5.22
 TIMESTAMP=" (1.1220.2.365 2005/12/18 22:14:06)"
 
 # See if we are running on zsh, and set the options which allow our
@@ -1604,11 +1609,18 @@ EOF
 	compiler_flags="$compiler_flags $arg"
 	compile_command="$compile_command $arg"
 	finalize_command="$finalize_command $arg"
+	deplibs="$deplibs $arg"
 	continue
 	;;
 
       -module)
 	module=yes
+	case $host in
+	*-*-freebsd*)
+	  # Do not build the useless static library
+	  build_old_libs=no
+	  ;;
+	esac
 	continue
 	;;
 
@@ -2082,10 +2094,7 @@ EOF
 	case $pass in
 	dlopen) libs="$dlfiles" ;;
 	dlpreopen) libs="$dlprefiles" ;;
-	link)
-	  libs="$deplibs %DEPLIBS%"
-	  test "X$link_all_deplibs" != Xno && libs="$libs $dependency_libs"
-	  ;;
+	link) libs="$deplibs %DEPLIBS% $dependency_libs" ;;
 	esac
       fi
       if test "$pass" = dlopen; then
@@ -2104,6 +2113,29 @@ EOF
 	  else
 	    compiler_flags="$compiler_flags $deplib"
 	  fi
+
+	  case $linkmode in
+	  lib)
+	    deplibs="$deplib $deplibs"
+	    test "$pass" = conv && continue
+	    newdependency_libs="$deplib $newdependency_libs"
+	    ;;
+	  prog)
+	    if test "$pass" = conv; then
+	      deplibs="$deplib $deplibs"
+	      continue
+	    fi
+	    if test "$pass" = scan; then
+	      deplibs="$deplib $deplibs"
+	    else
+	      compile_deplibs="$deplib $compile_deplibs"
+	      finalize_deplibs="$deplib $finalize_deplibs"
+	    fi
+	    ;;
+	  *)
+	    ;;
+	  esac # linkmode
+
 	  continue
 	  ;;
 	-l*)
@@ -3203,11 +3235,6 @@ EOF
 	    current=`expr $number_major + $number_minor - 1`
 	    age="$number_minor"
 	    revision="$number_minor"
-	    ;;
-	  *)
-	    $echo "$modename: unknown library version type \`$version_type'" 1>&2
-	    $echo "Fatal configuration error.  See the $PACKAGE docs for more information." 1>&2
-	    exit $EXIT_FAILURE
 	    ;;
 	  esac
 	  ;;
@@ -4713,6 +4740,9 @@ static const void *lt_preloaded_setup() {
             ;;
           esac
 	  ;;
+	*-*-freebsd*)
+	  # FreeBSD doesn't need this...
+	  ;;
 	*)
 	  $echo "$modename: unknown suffix for \`$dlsyms'" 1>&2
 	  exit $EXIT_FAILURE
@@ -6003,10 +6033,17 @@ relink_command=\"$relink_command\""
 	fi
 
 	# Install the pseudo-library for information purposes.
-	name=`$echo "X$file" | $Xsed -e 's%^.*/%%'`
-	instname="$dir/$name"i
-	$show "$install_prog $instname $destdir/$name"
-	$run eval "$install_prog $instname $destdir/$name" || exit $?
+	case $host in
+	*-*-freebsd*)
+	  # Do not install the useless pseudo-library
+	  ;;
+	*)
+	  name=`$echo "X$file" | $Xsed -e 's%^.*/%%'`
+	  instname="$dir/$name"i
+	  $show "$install_prog $instname $destdir/$name"
+	  $run eval "$install_prog $instname $destdir/$name" || exit $?
+	  ;;
+	esac
 
 	# Maybe install the static library, too.
 	test -n "$old_library" && staticlibs="$staticlibs $dir/$old_library"

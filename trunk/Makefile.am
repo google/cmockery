@@ -46,13 +46,14 @@ noinst_SCRIPTS =
 
 lib_LTLIBRARIES += libcmockery.la
 libcmockery_la_SOURCES = src/config.h src/cmockery.c src/google/cmockery.h
-libcmockery_la_CFLAGS = -Isrc/google
+libcmockery_la_CFLAGS = -I$(top_srcdir)/src/google
 
 noinst_PROGRAMS = calculator
 calculator_SOURCES = src/example/calculator.c src/config.h
 calculator_CFLAGS =
 
-unit_test_CFLAGS = -Isrc/google -Isrc/example -DUNIT_TESTING=1
+unit_test_CFLAGS = -I$(top_srcdir)/src/google \
+                   -I$(top_srcdir)/src/example -DUNIT_TESTING=1
 
 noinst_PROGRAMS += calculator_test
 calculator_test_SOURCES = src/example/calculator_test.c \
