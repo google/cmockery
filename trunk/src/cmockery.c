@@ -32,6 +32,12 @@
 #define vsnprintf _vsnprintf
 #endif // _WIN32
 
+/* Backwards compatibility with headers shipped with Visual Studio 2005 and
+ * earlier. */
+#ifdef _WIN32
+WINBASEAPI BOOL WINAPI IsDebuggerPresent(VOID);
+#endif // _WIN32
+
 // Size of guard bytes around dynamically allocated blocks.
 #define MALLOC_GUARD_SIZE 16
 // Pattern used to initialize guard blocks.
