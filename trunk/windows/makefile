@@ -58,6 +58,12 @@ CC_COMMAND=$(CC) /nologo /c /D_WIN32_WINNT=0x501 /DHAVE_MALLOC_H \
 CC_COMMAND_UNIT_TEST=$(CC_COMMAND) /DUNIT_TESTING=1 \
 	/I$(EXAMPLE_SOURCE_DIRECTORY)
 
+# If debugging is enabled compile with symbols and stop on exceptions.
+!IFDEF UNIT_TESTING_DEBUG
+CC_COMMAND=$(CC_COMMAND) /DUNIT_TESTING_DEBUG=1 /Zi /Od
+LFLAGS=$(LFLAGS) /DEBUG
+!ENDIF # UNIT_TESTING_DEBUG
+
 LIBLINKFLAGS=/NOLOGO
 
 # Library archiver flags and command.
