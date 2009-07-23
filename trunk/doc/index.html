@@ -9,20 +9,20 @@
 <ul>Contents
   <li><a href="#Motivation">Motivation</a></li>
   <li><a href="#Overview">Overview</a></li>
-  <li><a href="#TestExecution">Test Execution</a>
-  <li><a href="#ExceptionHandling">Exception Handling</a></li>
-  <li><a href="#FailureConditions">Failure Conditions</a></li>
+  <li><a href="#Test_Execution">Test Execution</a>
+  <li><a href="#Exception_Handling">Exception Handling</a></li>
+  <li><a href="#Failure_Conditions">Failure Conditions</a></li>
   <li><a href="#Assertions">Assertions</a></li>
   <ul>
-    <li><a href="#AssertMacros">Assert Macros</a></li>
+    <li><a href="#Assert_Macros">Assert Macros</a></li>
   </ul>
-  <li><a href="#MemoryAllocation">Dynamic Memory Allocation</a></li>
-  <li><a href="#MockFunctions">Mock functions</a></li>
+  <li><a href="#Dynamic_Memory_Allocation">Dynamic Memory Allocation</a></li>
+  <li><a href="#Mock_Functions">Mock functions</a></li>
   <ul>
-    <li><a href="#MockFunctionsReturnValues">Return Values</a></li>
-    <li><a href="#MockFunctionsCheckingParameters">Checking Parameters</a></li>
+    <li><a href="#Return_Values">Return Values</a></li>
+    <li><a href="#Checking_Parameters">Checking Parameters</a></li>
   </ul>
-  <li><a href="#TestState">Test State</a></li>
+  <li><a href="#Test_State">Test State</a></li>
   <li><a href="#Example">Example</a></li>
 </ul>
 
@@ -62,7 +62,7 @@ some modification, therefore the preprocessor symbol <b>UNIT_TESTING</b> should
 be defined when Cmockery unit test applications are compiled so code within the
 module can be conditionally compiled for tests.</p>
 
-<a name="TestExecution"><h2>Test Execution</h2></a>
+<a name="Test_Execution"><h2>Test Execution</h2></a>
 <p>Cmockery unit test cases are functions with the signature
 <b>void function(void **state)</b>.  Cmockery test applications initialize a
 table with test case function pointers using <b>unit_test*()</b> macros.  This
@@ -93,14 +93,14 @@ int main(int argc, char* argv[]) {
 }
 </listing>
 
-<a name="ExceptionHandling"><h2>Exception Handling</h2></a>
+<a name="Exception_Handling"><h2>Exception Handling</h2></a>
 <p>Before a test function is executed by <b>run_tests()</b>,
 exception / signal handlers are overridden with a handler that simply
 displays an error and exits a test function if an exception occurs.  If an
 exception occurs outside of a test function, for example in Cmockery itself,
 the application aborts execution and returns an error code.</p>
 
-<a name="FailureConditions"><h2>Failure Conditions</h2></a>
+<a name="Failure_Conditions"><h2>Failure Conditions</h2></a>
 <p>If a failure occurs during a test function that's executed via
 <b>run_tests()</b>, the test function is aborted and the application's
 execution resumes with the next test function.
@@ -111,13 +111,13 @@ failure...
 
 <ul>
   <li><a href="#Assertions">Assertions</a></li>
-  <li><a href="#ExceptionHandling">Exceptions</a></li>
-  <li><a href="#MemoryAllocation">Memory leaks</a></li>
-  <li><a href="#TestState">Mismatched setup and tear down functions</a></li>
-  <li><a href="#MockFunctionsReturnValues">Missing mock return values</a></li>
-  <li><a href="#MockFunctionsReturnValues">Unused mock return values</a></li>
-  <li><a href="#MockFunctionsCheckingParameters">Missing expected parameter values</a></li>
-  <li><a href="#MockFunctionsCheckingParameters">Unused expected parameter values</a></li>
+  <li><a href="#Exception_Handling">Exceptions</a></li>
+  <li><a href="#Dynamic_Memory_Allocation">Memory leaks</a></li>
+  <li><a href="#Test_State">Mismatched setup and tear down functions</a></li>
+  <li><a href="#Return_Values">Missing mock return values</a></li>
+  <li><a href="#Return_Values">Unused mock return values</a></li>
+  <li><a href="#Checking_Parameters">Missing expected parameter values</a></li>
+  <li><a href="#Checking_Parameters">Unused expected parameter values</a></li>
 </ul>
 </p>
 
@@ -125,7 +125,7 @@ failure...
 <p>Runtime assert macros like the standard C library's <b>assert()</b> should
 be redefined in modules being tested to use Cmockery's <b>mock_assert()</b>
 function.  Normally <b>mock_assert()</b> signals a
-<a href="#FailureConditions">test failure</a>.  If a function is called using
+<a href="#Failure_Conditions">test failure</a>.  If a function is called using
 the <b>expect_assert_failure()</b> macro, any calls to <b>mock_assert()</b>
 within the function will result in the execution of the test.  If no
 calls to <b>mock_assert()</b> occur during the function called via
@@ -192,7 +192,7 @@ int main(int argc, char *argv[]) {
 }
 </listing>
 
-<h3><a name="AssertMacros">Assert Macros</a></h3>
+<h3><a name="Assert_Macros">Assert Macros</a></h3>
 
 <p>Cmockery provides an assortment of assert macros that tests applications
 should use use in preference to the C standard library's assert macro.  On an
@@ -264,14 +264,14 @@ int main(int argc, char *argv[]) {
 }
 </listing>
 
-<a name="MemoryAllocation"><h2>Dynamic Memory Allocation</h2></a>
+<a name="Dynamic_Memory_Allocation"><h2>Dynamic Memory Allocation</h2></a>
 
 <p>To test for memory leaks, buffer overflows and underflows a module being
 tested by Cmockery should replace calls to <b>malloc()</b>, <b>calloc()</b> and
 <b>free()</b> to <b>test_malloc()</b>, <b>test_calloc()</b> and
 <b>test_free()</b> respectively.  Each time a block is deallocated using
 <b>test_free()</b> it is checked for corruption, if a corrupt block is found
-a <a href="#FailureConditions">test failure</a> is signalled.  All blocks
+a <a href="#Failure_Conditions">test failure</a> is signalled.  All blocks
 allocated using the <b>test_*()</b> allocation functions are tracked by the
 Cmockery library.  When a test completes if any allocated blocks (memory leaks)
 remain they are reported and a test failure is signalled.</p>
@@ -349,7 +349,7 @@ int main(int argc, char* argv[]) {
 }
 </listing>
 
-<a name="MockFunctions"><h2>Mock Functions</h2></a>
+<a name="Mock_Functions"><h2>Mock Functions</h2></a>
 
 <p>A unit test should ideally isolate the function or module being tested
 from any external dependencies.  This can be performed using mock functions
@@ -359,7 +359,7 @@ references external functions.  Dynamic linking is simply the process of
 setting a function pointer in a table used by the tested module to reference 
 a mock function defined in the unit test.</p>
 
-<a name="MockFunctionsReturnValues"><h3>Return Values</h3></a>
+<a name="Return_Values"><h3>Return Values</h3></a>
 
 <p>In order to simplify the implementation of mock functions Cmockery provides
 functionality which stores return values for mock functions in each test
@@ -492,7 +492,7 @@ int main(int argc, char* argv[]) {
 }
 </listing>
 
-<a name="MockFunctionsCheckingParameters"><h3>Checking Parameters</h3></a>
+<a name="Checking_Parameters"><h3>Checking Parameters</h3></a>
 <p>In addition to storing the return values of mock functions, Cmockery
 provides functionality to store expected values for mock function parameters
 using the expect_*() functions provided.  A mock function parameter can then
@@ -569,7 +569,7 @@ int main(int argc, char* argv[]) {
 }
 </listing>
 
-<a name="TestState"><h2>Test State</h2></a>
+<a name="Test_State"><h2>Test State</h2></a>
 
 <p>Cmockery allows the specification of multiple setup and tear down functions
 for each test case.  Setup functions, specified by the <b>unit_test_setup()</b>
@@ -702,5 +702,5 @@ are provided as an example of Cmockery's features discussed in this document.
 
 <hr>
 <address></address>
-<!-- hhmts start --> Last modified: Mon Jul 20 15:57:27 PDT 2009 <!-- hhmts end -->
+<!-- hhmts start --> Last modified: Wed Jul 22 12:11:43 PDT 2009 <!-- hhmts end -->
 </body> </html>

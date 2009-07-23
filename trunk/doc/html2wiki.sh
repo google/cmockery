@@ -128,6 +128,9 @@ function list_indent(indent) {
 # Limitations:
 # * Anchors must be on a single line and must contain one of either the name or
 #   href attributes.
+# * Href of local anchors (href="#.*") should be set to the name of a heading
+#   within the document.  If the heading contains spaces the href should
+#   contain underscores.
 # * All external links are relative to
 #   http://cmockery.googlecode.com/svn/trunk/doc/
 sed -r '
