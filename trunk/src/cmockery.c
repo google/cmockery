@@ -868,11 +868,10 @@ static int memory_not_equal_display_error(
         const char l = a[i];
         const char r = b[i];
         if (l == r) {
-            print_error("equal at offset %d 0x%02x 0x%02x\n", i, l, r);
             same ++;
         }
     }
-    if (same) {
+    if (same == size) {
         print_error("%d bytes of 0x%08x and 0x%08x the same\n", same,
                     a, b);
         return 0;
