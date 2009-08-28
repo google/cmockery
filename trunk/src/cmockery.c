@@ -1220,7 +1220,8 @@ void mock_assert(const int result, const char* const expression,
 }
 
 
-void _assert_true(const int result, const char * const expression,
+void _assert_true(const LargestIntegralType result,
+                  const char * const expression,
                   const char * const file, const int line) {
     if (!result) {
         print_error("%s\n", expression);

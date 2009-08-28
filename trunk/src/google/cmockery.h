@@ -40,7 +40,11 @@
 
 // Printf format used to display LargestIntegralType.
 #ifndef LargestIntegralTypePrintfFormat
-#define LargestIntegralTypePrintfFormat "%lx"
+#ifdef _WIN32
+#define LargestIntegralTypePrintfFormat "%I64x"
+#else
+#define LargestIntegralTypePrintfFormat "%llx"
+#endif // _WIN32
 #endif // LargestIntegralTypePrintfFormat
 
 // Perform an unsigned cast to LargestIntegralType.
@@ -169,9 +173,11 @@
                     cast_to_largest_integral_type(parameter))
 
 // Assert that the given expression is true.
-#define assert_true(c) _assert_true((int)(c), #c, __FILE__, __LINE__)
+#define assert_true(c) _assert_true(cast_to_largest_integral_type(c), #c, \
+                                    __FILE__, __LINE__)
 // Assert that the given expression is false.
-#define assert_false(c) _assert_true(!((int)(c)), #c, __FILE__, __LINE__)
+#define assert_false(c) _assert_true(!(cast_to_largest_integral_type(c)), #c, \
+                                     __FILE__, __LINE__)
 
 // Assert that the two given integers are equal, otherwise fail.
 #define assert_int_equal(a, b) \
@@ -293,10 +299,11 @@
  */
 #define expect_assert_failure(function_call) \
   { \
-    const char* expression = (const char*)setjmp(global_expect_assert_env); \
+    const int expression = setjmp(global_expect_assert_env); \
     global_expecting_assert = 1; \
     if (expression) { \
-      print_message("Expected assertion %s occurred\n", expression); \
+      print_message("Expected assertion %s occurred\n", \
+                    *((const char**)&expression)); \
       global_expecting_assert = 0; \
     } else { \
       function_call ; \
@@ -424,7 +431,8 @@ void mock_assert(const int result, const char* const expression,
 void _will_return(const char * const function_name, const char * const file,
                   const int line, const LargestIntegralType value,
                   const int count);
-void _assert_true(const int result, const char* const expression,
+void _assert_true(const LargestIntegralType result,
+                  const char* const expression,
                   const char * const file, const int line);
 void _assert_int_equal(
     const LargestIntegralType a, const LargestIntegralType b,
