@@ -1,29 +1,23 @@
-
-
-
-
-
-=Cmockery Unit Testing Framework=
+# Cmockery Unit Testing Framework
 
 Cmockery is a lightweight library that is used to author C unit tests.
 
 Contents
- * [#Motivation Motivation]
- * [#Overview Overview]
- * [#Test_Execution Test Execution]
- * [#Exception_Handling Exception Handling]
- * [#Failure_Conditions Failure Conditions]
- * [#Assertions Assertions]
-  * [#Assert_Macros Assert Macros]
- * [#Dynamic_Memory_Allocation Dynamic Memory Allocation]
- * [#Mock_Functions Mock functions]
-  * [#Return_Values Return Values]
-  * [#Checking_Parameters Checking Parameters]
- * [#Test_State Test State]
- * [#Example Example]
+ * [Motivation](#Motivation)
+ * [Overview](#Overview)
+ * [Test Execution](#TestExecution)
+ * [Exception Handling](#ExceptionHandling)
+ * [Failure Conditions](#FailureConditions)
+ * [Assertions](#Assertions)
+  * [AssertMacros](#AssertMacros)
+ * [Dynamic Memory Allocation](#DynamicMemoryAllocation)
+ * [Mock functions](#MockFunctions)
+  * [Return Values](#ReturnValues)
+  * [Checking Parameters](#CheckingParameters)
+ * [Test State](#TestState)
+ * [Example](#Example)
 
-
-==Motivation==
+## <a name="Motivation"></a>Motivation
 
 There are a variety of C unit testing frameworks available however many of
 them are fairly complex and require the latest compiler technology.  Some
@@ -46,7 +40,7 @@ to test a variety of exotic code.  If a developer wishes to simply test an
 application with the latest compiler then other unit testing frameworks maybe
 preferable.
 
-==Overview==
+## <a name="Overview"></a>Overview
 
 Cmockery tests are compiled into stand-alone executables and linked with
 the Cmockery library, the standard C library and module being tested.  Any
@@ -64,7 +58,7 @@ some modification, therefore the preprocessor symbol *UNIT_TESTING* should
 be defined when Cmockery unit test applications are compiled so code within the
 module can be conditionally compiled for tests.
 
-==Test Execution==
+## <a name="TestExecution"></a>Test Execution
 
 Cmockery unit test cases are functions with the signature
 *void function(void `*``*`state)*.  Cmockery test applications initialize a
@@ -76,9 +70,10 @@ other data structures prior to running each test function.   When a unit test
 is complete *run_tests()* performs various checks to determine whether
 the test succeeded.
 
-====Using run_tests()====
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/run_tests.c run_tests.c]
-{{{
+#### <a name="run_tests"></a>Using run_tests()
+
+[run_tests.c](src/example/run_tests.c)
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -94,9 +89,9 @@ int main(int argc, char* argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-==Exception Handling==
+## <a name="ExceptionHandling"></a>Exception Handling
 
 Before a test function is executed by *run_tests()*,
 exception / signal handlers are overridden with a handler that simply
@@ -104,7 +99,7 @@ displays an error and exits a test function if an exception occurs.  If an
 exception occurs outside of a test function, for example in Cmockery itself,
 the application aborts execution and returns an error code.
 
-==Failure Conditions==
+## <a name="FailureConditions"></a>Failure Conditions
 
 If a failure occurs during a test function that's executed via
 *run_tests()*, the test function is aborted and the application's
@@ -125,7 +120,7 @@ failure...
 
 
 
-==Assertions==
+## <a name="Assertions"></a>Assertions
 
 Runtime assert macros like the standard C library's *assert()* should
 be redefined in modules being tested to use Cmockery's *mock_assert()*
@@ -136,9 +131,10 @@ within the function will result in the execution of the test.  If no
 calls to *mock_assert()* occur during the function called via
 *expect_assert_failure()* a test failure is signalled.
 
-====Using mock_assert()====
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/assert_module.c assert_module.c]
-{{{
+#### <a name="mock_assert"></a>Using mock_assert()
+
+[assert_module.c](src/example/assert_module.c)
+~~~
 #include <assert.h>
 
 // If unit testing is enabled override assert with mock_assert().
@@ -160,9 +156,11 @@ void decrement_value(int * const value) {
         *value --;
     }
 }
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/assert_module_test.c assert_module_test.c]
-{{{
+~~~
+
+[assert_module_test.c](src/example/assert_module_test.c)
+
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -195,10 +193,9 @@ int main(int argc, char *argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-===Assert Macros===
-
+### <a name="AssertMacros"></a>Assert Macros
 
 Cmockery provides an assortment of assert macros that tests applications
 should use use in preference to the C standard library's assert macro.  On an
@@ -212,8 +209,9 @@ caused the assertion failure which increases data visibility aiding
 debugging of failing test cases.
 
 ====Using assert_{type}_equal() macros====
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/assert_macro.c assert_macro.c]
-{{{
+
+[assert_macro.c](src/example/assert_macro.c)
+~~~
 #include <string.h>
 
 static const char* status_code_strings[] = {
@@ -236,9 +234,10 @@ unsigned int string_to_status_code(const char* const status_code_string) {
     }
     return ~0U;
 }
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/assert_macro_test.c assert_macro_test.c]
-{{{
+~~~
+
+[assert_macro_test.c](src/example/assert_macro_test.c)
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -268,10 +267,9 @@ int main(int argc, char *argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-==Dynamic Memory Allocation==
-
+## <a name="DynamicMemoryAllocation"></a>Dynamic Memory Allocation
 
 To test for memory leaks, buffer overflows and underflows a module being
 tested by Cmockery should replace calls to *malloc()*, *calloc()* and
@@ -288,9 +286,10 @@ Therefore all test cases in a test application share a single address space
 which means memory corruption from a single test case could potentially cause
 the test application to exit prematurely.
 
-====Using Cmockery's Allocators====
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/allocate_module.c allocate_module.c]
-{{{
+#### <a name="UsingCmockerysAllocators"></a>Using Cmockery's Allocators
+
+[allocate_module.c](src/example/allocate_module.c)
+~~~
 #include <malloc.h>
 
 #if UNIT_TESTING
@@ -320,9 +319,9 @@ void buffer_underflow() {
     memory[-1] = '!';
     free(memory);
 }
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/allocate_module_test.c allocate_module_test.c]
-{{{
+~~~
+[allocate_module_test.c](src/example/allocate_module_test.c)
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -355,9 +354,9 @@ int main(int argc, char* argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-==Mock Functions==
+## <a name="MockFunctions"></a>Mock Functions
 
 
 A unit test should ideally isolate the function or module being tested
@@ -368,7 +367,7 @@ references external functions.  Dynamic linking is simply the process of
 setting a function pointer in a table used by the tested module to reference 
 a mock function defined in the unit test.
 
-===Return Values===
+### <a name="ReturnValues"></a>Return Values
 
 
 In order to simplify the implementation of mock functions Cmockery provides
@@ -383,9 +382,10 @@ multiple calls to *mock()* to return output parameters in addition to a
 return value.  In addition this allows the specification of return values for 
 multiple calls to a mock function.
 
-====Using will_return()====
+#### <a name="will_return"></a>Using will_return()
+
 [http://cmockery.googlecode.com/svn/trunk/doc/database.h database.h]
-{{{
+~~~
 typedef struct DatabaseConnection DatabaseConnection;
 
 /* Function that takes an SQL query string and sets results to an array of
@@ -407,9 +407,10 @@ struct DatabaseConnection {
 // Connect to a database.
 DatabaseConnection* connect_to_database(const char * const url,
                                         const unsigned int port);
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/customer_database.c customer_database.c]
-{{{
+~~~
+
+[customer_database.c](src/example/customer_database.c)
+~~~
 #include <stddef.h>
 #include <stdio.h>
 #include <database.h>
@@ -439,9 +440,10 @@ unsigned int get_customer_id_by_name(
     }
     return (unsigned int)results[0];
 }
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/customer_database_test.c customer_database_test.c]
-{{{
+~~~
+
+[customer_database_test.c](src/example/customer_database_test.c)
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -500,9 +502,9 @@ int main(int argc, char* argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-===Checking Parameters===
+### <a name="CheckingParameters"></a>Checking Parameters
 
 In addition to storing the return values of mock functions, Cmockery
 provides functionality to store expected values for mock function parameters
@@ -516,18 +518,20 @@ against the next value queued using expect_`*`(), if the parameter check fails a
 test failure is signalled.  In addition if check_expected() is called and
 no more parameter values are queued a test failure occurs.
 
-====Using expect_`*`()====
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/product_database.c product_database.c]
-{{{
+#### <a name="expect"></a>Using expect_`*`()
+
+[product_database.c](src/example/product_database.c)
+~~~
 #include <database.h>
 
 // Connect to the database containing customer information.
 DatabaseConnection* connect_to_product_database() {
     return connect_to_database("products.abcd.org", 322);
 }
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/product_database_test.c product_database_test.c]
-{{{
+~~~
+
+[product_database_test.c](src/example/product_database_test.c)
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -579,10 +583,9 @@ int main(int argc, char* argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-==Test State==
-
+## <a name="TestState"></a>Test State
 
 Cmockery allows the specification of multiple setup and tear down functions
 for each test case.  Setup functions, specified by the *unit_test_setup()*
@@ -592,9 +595,10 @@ specified by the *unit_test_teardown()* or
 *unit_test_setup_teardown()* macros provide a code path that is always
 executed for a test case even when it fails.
 
-====Using unit_test_setup_teardown()====
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/key_value.c key_value.c]
-{{{
+#### <a name="unit_test_setup_teardown"></a>Using unit_test_setup_teardown()
+
+[key_value.c](src/example/key_value.c)
+~~~
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -634,9 +638,10 @@ void sort_items_by_key() {
     qsort(key_values, number_of_key_values, sizeof(*key_values),
           key_value_compare_keys);
 }
-}}}
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/key_value_test.c key_value_test.c]
-{{{
+~~~
+
+[key_value_test.c](src/example/key_value_test.c)
+~~~
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -702,17 +707,12 @@ int main(int argc, char* argv[]) {
     };
     return run_tests(tests);
 }
-}}}
+~~~
 
-==Example==
-
+## <a name="Example"></a>Example
 
 A small command line calculator
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/calculator.c calculator.c] application
+[calculator.c](src/example/calculator.c) application
 and test application that full exercises the calculator application
-[http://cmockery.googlecode.com/svn/trunk/doc/../src/example/calculator_test.c calculator_test.c]
+[calculator_test.c](src/example/calculator_test.c)
 are provided as an example of Cmockery's features discussed in this document.
-
-
-
-
