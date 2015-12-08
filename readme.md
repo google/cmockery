@@ -206,7 +206,7 @@ assert_{type}_equal() and assert_{type}_not_equal(), display the data that
 caused the assertion failure which increases data visibility aiding
 debugging of failing test cases.
 
-====Using assert_{type}_equal() macros====
+#### <a name="UsingAssertEqualMacros></a>Using assert_{type}_equal() macros
 
 [assert_macro.c](src/example/assert_macro.c)
 ~~~
