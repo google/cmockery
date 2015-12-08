@@ -109,16 +109,14 @@ Test failures are ultimately signalled via the Cmockery function *fail()*.
 The following events will result in the Cmockery library signalling a test
 failure...
 
- * [#Assertions Assertions]
- * [#Exception_Handling Exceptions]
- * [#Dynamic_Memory_Allocation Memory leaks]
- * [#Test_State Mismatched setup and tear down functions]
- * [#Return_Values Missing mock return values]
- * [#Return_Values Unused mock return values]
- * [#Checking_Parameters Missing expected parameter values]
- * [#Checking_Parameters Unused expected parameter values]
-
-
+ * [Assertions](#Assertions)
+ * [Exceptions](#ExceptionHandling)
+ * [Memory leaks](#DynamicMemoryAllocation)
+ * [Mismatched setup and tear down functions](#TestState)
+ * [Missing mock return values](#ReturnValues)
+ * [Unused mock return values](#ReturnValues)
+ * [Expected parameter values](#CheckingParameters)
+ * [Unused expected parameter values](#CheckingParameters)
 
 ## <a name="Assertions"></a>Assertions
 
