@@ -123,7 +123,7 @@ failure...
 Runtime assert macros like the standard C library's *assert()* should
 be redefined in modules being tested to use Cmockery's *mock_assert()*
 function.  Normally *mock_assert()* signals a
-[#Failure_Conditions test failure].  If a function is called using
+[test failure](#FailureConditions).  If a function is called using
 the *expect_assert_failure()* macro, any calls to *mock_assert()*
 within the function will result in the execution of the test.  If no
 calls to *mock_assert()* occur during the function called via
@@ -274,7 +274,7 @@ tested by Cmockery should replace calls to *malloc()*, *calloc()* and
 *free()* to *test_malloc()*, *test_calloc()* and
 *test_free()* respectively.  Each time a block is deallocated using
 *test_free()* it is checked for corruption, if a corrupt block is found
-a [#Failure_Conditions test failure] is signalled.  All blocks
+a [test failure](#FailureConditions) is signalled.  All blocks
 allocated using the *test_`*`()* allocation functions are tracked by the
 Cmockery library.  When a test completes if any allocated blocks (memory leaks)
 remain they are reported and a test failure is signalled.
@@ -382,7 +382,7 @@ multiple calls to a mock function.
 
 #### <a name="will_return"></a>Using will_return()
 
-[http://cmockery.googlecode.com/svn/trunk/doc/database.h database.h]
+[database.h](src/example/database.h)
 ~~~
 typedef struct DatabaseConnection DatabaseConnection;
 
