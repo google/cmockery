@@ -21,11 +21,26 @@
 extern void leak_memory();
 extern void buffer_overflow();
 extern void buffer_underflow();
+extern void free_twice_memory();
+extern void free_bad_memory();
+
 
 // Test case that fails as leak_memory() leaks a dynamically allocated block.
 void leak_memory_test(void **state) {
     leak_memory();
 }
+
+// Test case that fails as free_twice_memory() free twice.
+void free_twice_memory_test(void **state) {
+    free_twice_memory();
+}
+
+// Test case that fails as free_bad_memory() free bad memory.
+void free_bad_memory_test(void **state) {
+    free_bad_memory();
+}
+
+
 
 // Test case that fails as buffer_overflow() corrupts an allocated block.
 void buffer_overflow_test(void **state) {
@@ -42,6 +57,8 @@ int main(int argc, char* argv[]) {
         unit_test(leak_memory_test),
         unit_test(buffer_overflow_test),
         unit_test(buffer_underflow_test),
+        unit_test(free_twice_memory),
+        unit_test(free_bad_memory)
     };
     return run_tests(tests);
 }

@@ -94,6 +94,7 @@ typedef struct ListNode {
 // Debug information for malloc().
 typedef struct MallocBlockInfo {
     void* block;              // Address of the block returned by malloc().
+    void* ptr;                // Address returned to caller
     size_t allocated_size;    // Total size of the allocated block.
     size_t size;              // Request block size.
     SourceLocation location;  // Where the block was allocated.
@@ -1361,6 +1362,7 @@ void* _test_malloc(const size_t size, const char* file, const int line) {
     block_info->allocated_size = allocate_size;
     block_info->size = size;
     block_info->block = block;
+    block_info->ptr = ptr;
     block_info->node.value = block_info;
     list_add(block_list, &block_info->node);
     return ptr;
@@ -1377,6 +1379,22 @@ void* _test_calloc(const size_t number_of_elements, const size_t size,
     return ptr;
 }
 
+//Chech if the address is really allocated
+int check_allocated_exist(void* const ptr){
+    const ListNode * const head = get_allocated_blocks_list();
+    const ListNode *node = head->next;
+    int rc = 0;
+    while(node != head){
+        const MallocBlockInfo * const block_info = (const MallocBlockInfo*)node->value;
+        assert_true(block_info);
+        if(block_info->ptr == ptr){
+            rc = 1;
+            break;
+        }
+        node = node->next;
+    }
+    return rc;
+}
 
 // Use the real free in this function.
 #undef free
@@ -1385,6 +1403,17 @@ void _test_free(void* const ptr, const char* file, const int line) {
     char *block = (char*)ptr;
     MallocBlockInfo *block_info;
     _assert_true((int)ptr, "ptr", file, line);
+
+    //is it a allocated block(maybe free twice)
+    if(!check_allocated_exist((void * const)ptr)){
+        print_error(
+                "the address  of 0x%08x in "
+                SOURCE_LOCATION_FORMAT " is not a allocated block\n", 
+                (size_t)ptr, file, line
+                );
+        _fail(file, line);
+    }
+
     block_info = (MallocBlockInfo*)(block - (MALLOC_GUARD_SIZE +
                                                sizeof(*block_info)));
     // Check the guard blocks.
