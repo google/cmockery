@@ -39,6 +39,8 @@
 
 extern void print_message(const char *format, ...);
 
+extern int example_test_printf(const char *format, ...);
+
 /* Redirect fprintf to a function in the test application so it's possible to
  * test error messages. */
 #ifdef fprintf
