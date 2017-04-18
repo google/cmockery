@@ -74,10 +74,10 @@ the test succeeded.
 
 [run_tests.c](src/example/run_tests.c)
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmockery.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <cmockery.h>
 
 // A test case that does nothing and succeeds.
 void null_test_success(void **state) {
@@ -133,16 +133,16 @@ calls to *mock_assert()* occur during the function called via
 
 [assert_module.c](src/example/assert_module.c)
 ~~~
-#include <assert.h>
+# include <assert.h>
 
 // If unit testing is enabled override assert with mock_assert().
-#if UNIT_TESTING
+# if UNIT_TESTING
 extern void mock_assert(const int result, const char* const expression, 
                         const char * const file, const int line);
-#undef assert
-#define assert(expression) \
+# undef assert
+# define assert(expression) \
     mock_assert((int)(expression), #expression, __FILE__, __LINE__);
-#endif // UNIT_TESTING
+# endif // UNIT_TESTING
 
 void increment_value(int * const value) {
     assert(value);
@@ -159,10 +159,10 @@ void decrement_value(int * const value) {
 [assert_module_test.c](src/example/assert_module_test.c)
 
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmockery.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <cmockery.h>
 
 extern void increment_value(int * const value);
 
@@ -210,7 +210,7 @@ debugging of failing test cases.
 
 [assert_macro.c](src/example/assert_macro.c)
 ~~~
-#include <string.h>
+# include <string.h>
 
 static const char* status_code_strings[] = {
     "Address not found",
@@ -236,10 +236,10 @@ unsigned int string_to_status_code(const char* const status_code_string) {
 
 [assert_macro_test.c](src/example/assert_macro_test.c)
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmockery.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <cmockery.h>
 
 extern const char* get_status_code_string(const unsigned int status_code);
 extern unsigned int string_to_status_code(
@@ -288,18 +288,18 @@ the test application to exit prematurely.
 
 [allocate_module.c](src/example/allocate_module.c)
 ~~~
-#include <malloc.h>
+# include <malloc.h>
 
-#if UNIT_TESTING
+# if UNIT_TESTING
 extern void* _test_malloc(const size_t size, const char* file, const int line);
 extern void* _test_calloc(const size_t number_of_elements, const size_t size, 
                           const char* file, const int line);
 extern void _test_free(void* const ptr, const char* file, const int line);
 
-#define malloc(size) _test_malloc(size, __FILE__, __LINE__)
-#define calloc(num, size) _test_calloc(num, size, __FILE__, __LINE__)
-#define free(ptr) _test_free(ptr, __FILE__, __LINE__)
-#endif // UNIT_TESTING
+# define malloc(size) _test_malloc(size, __FILE__, __LINE__)
+# define calloc(num, size) _test_calloc(num, size, __FILE__, __LINE__)
+# define free(ptr) _test_free(ptr, __FILE__, __LINE__)
+# endif // UNIT_TESTING
 
 void leak_memory() {
     int * const temporary = (int*)malloc(sizeof(int));
@@ -320,10 +320,10 @@ void buffer_underflow() {
 ~~~
 [allocate_module_test.c](src/example/allocate_module_test.c)
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmockery.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <cmockery.h>
 
 extern void leak_memory();
 extern void buffer_overflow();
@@ -409,12 +409,12 @@ DatabaseConnection* connect_to_database(const char * const url,
 
 [customer_database.c](src/example/customer_database.c)
 ~~~
-#include <stddef.h>
-#include <stdio.h>
-#include <database.h>
-#ifdef _WIN32
-#define snprintf _snprintf
-#endif // _WIN32
+# include <stddef.h>
+# include <stdio.h>
+# include <database.h>
+# ifdef _WIN32
+# define snprintf _snprintf
+# endif // _WIN32
 
 // Connect to the database containing customer information.
 DatabaseConnection* connect_to_customer_database() {
@@ -442,11 +442,11 @@ unsigned int get_customer_id_by_name(
 
 [customer_database_test.c](src/example/customer_database_test.c)
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmockery.h>
-#include <database.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <cmockery.h>
+# include <database.h>
 
 
 extern DatabaseConnection* connect_to_customer_database();
@@ -520,7 +520,7 @@ no more parameter values are queued a test failure occurs.
 
 [product_database.c](src/example/product_database.c)
 ~~~
-#include <database.h>
+# include <database.h>
 
 // Connect to the database containing customer information.
 DatabaseConnection* connect_to_product_database() {
@@ -530,11 +530,11 @@ DatabaseConnection* connect_to_product_database() {
 
 [product_database_test.c](src/example/product_database_test.c)
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <cmockery.h>
-#include <database.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <cmockery.h>
+# include <database.h>
 
 extern DatabaseConnection* connect_to_product_database();
 
@@ -597,9 +597,9 @@ executed for a test case even when it fails.
 
 [key_value.c](src/example/key_value.c)
 ~~~
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
+# include <stddef.h>
+# include <stdlib.h>
+# include <string.h>
 
 typedef struct KeyValue {
     unsigned int key;
@@ -640,11 +640,11 @@ void sort_items_by_key() {
 
 [key_value_test.c](src/example/key_value_test.c)
 ~~~
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <string.h>
-#include <cmockery.h>
+# include <stdarg.h>
+# include <stddef.h>
+# include <setjmp.h>
+# include <string.h>
+# include <cmockery.h>
 
 /* This is duplicated here from the module setup_teardown.c to reduce the
  * number of files used in this test. */
