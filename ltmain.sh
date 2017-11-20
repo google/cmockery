@@ -1,3 +1,4 @@
+#!/bin/bash
 # NOTE(csilvers): This file (ltmain.sh) is taken from
 #   http://ftp.gnu.org/gnu/libtool/libtool-1.5.22.tar.gz
 # with the following patch applied:
@@ -1090,7 +1091,7 @@ EOF
       ;;
     esac
     libtool_args="$nonopt"
-    base_compile="$nonopt $@"
+    base_compile="$nonopt $*"
     compile_command="$nonopt"
     finalize_command="$nonopt"
 
