@@ -1224,7 +1224,17 @@ void _assert_true(const LargestIntegralType result,
                   const char * const expression,
                   const char * const file, const int line) {
     if (!result) {
-        print_error("%s\n", expression);
+        print_error("expected '%s' to be true\n", expression);
+        _fail(file, line);
+    }
+}
+
+
+void _assert_false(const LargestIntegralType result,
+                  const char * const expression,
+                  const char * const file, const int line) {
+    if (!result) {
+        print_error("expected '%s' to be false\n", expression);
         _fail(file, line);
     }
 }
