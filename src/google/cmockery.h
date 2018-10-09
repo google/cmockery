@@ -244,6 +244,7 @@
 
 // Initializes a UnitTest structure.
 #define unit_test(f) { #f, f, UNIT_TEST_FUNCTION_TYPE_TEST }
+#define unit_test_with_prefix(prefix, f) { #prefix#f, f, UNIT_TEST_FUNCTION_TYPE_TEST }
 #define unit_test_setup(test, setup) \
     { #test "_" #setup, setup, UNIT_TEST_FUNCTION_TYPE_SETUP }
 #define unit_test_teardown(test, teardown) \
@@ -268,6 +269,7 @@
  *     const UnitTest tests[] = {
  *         unit_test(Test0);
  *         unit_test(Test1);
+ *         unit_test_with_prefix(SecondRun_, Test1);
  *     };
  *     return run_tests(tests);
  * }
