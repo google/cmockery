@@ -3,6 +3,7 @@
 Cmockery is a lightweight library that is used to author C unit tests.
 
 Contents
+ * [Building](#Building)
  * [Motivation](#Motivation)
  * [Overview](#Overview)
  * [Test Execution](#TestExecution)
@@ -16,6 +17,25 @@ Contents
   * [Checking Parameters](#CheckingParameters)
  * [Test State](#TestState)
  * [Example](#Example)
+
+## Building
+
+To compile the Cmockery library and example applications on Linux, run:
+
+```
+$ ./configure
+$ make
+```
+
+To compile on Windows, run:
+
+```
+> vsvars.bat
+> cd windows
+> nmake
+```
+
+This code has been tested on Linux (Ubuntu) and Windows using VC++7 and VC++8.
 
 ## <a name="Motivation"></a>Motivation
 
