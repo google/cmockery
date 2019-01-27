@@ -45,7 +45,7 @@ noinst_PROGRAMS = calculator$(EXEEXT) calculator_test$(EXEEXT) \
 	customer_database_test$(EXEEXT) key_value_test$(EXEEXT) \
 	product_database_test$(EXEEXT) run_tests$(EXEEXT) \
 	$(am__EXEEXT_1)
-DIST_COMMON = README $(am__configure_deps) $(dist_doc_DATA) \
+DIST_COMMON = README.md $(am__configure_deps) $(dist_doc_DATA) \
 	$(googleinclude_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/configure \
 	$(top_srcdir)/src/config.h.in AUTHORS COPYING ChangeLog \
@@ -263,7 +263,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/src
 googleincludedir = $(includedir)/google
 googleinclude_HEADERS = src/google/cmockery.h
 docdir = $(prefix)/share/doc/$(PACKAGE)-$(VERSION)
-dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README doc/index.html
+dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README.md doc/index.html
 lib_LTLIBRARIES = libcmockery.la
 TESTS = 
 TESTS_ENVIRONMENT = CMOCKERY_ROOTDIR = $(top_srcdir)

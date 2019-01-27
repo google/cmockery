@@ -12,7 +12,7 @@ AC_PREREQ(2.57)
 AC_INIT(cmockery, 0.1.2, opensource@google.com)
 # The argument here is just something that should be in the current directory
 # (for sanity checking)
-AC_CONFIG_SRCDIR(README)
+AC_CONFIG_SRCDIR(README.md)
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(src/config.h)
 
