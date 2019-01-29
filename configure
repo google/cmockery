@@ -427,7 +427,7 @@ PACKAGE_VERSION='0.11'
 PACKAGE_STRING='cmockery 0.11'
 PACKAGE_BUGREPORT='opensource@google.com'
 
-ac_unique_file="README"
+ac_unique_file="README.md"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
