@@ -1,5 +1,10 @@
 # Cmockery Unit Testing Framework
 
+[![Build Status][travis-badge]][travis-url]
+
+[travis-badge]: https://travis-ci.org/google/cmockery.svg?branch=master
+[travis-url]: https://travis-ci.org/google/cmockery
+
 Cmockery is a lightweight library that is used to author C unit tests.
 
 Contents
