@@ -9,6 +9,7 @@ Cmockery is a lightweight library that is used to author C unit tests.
 
 Contents
  * [Building](#Building)
+ * [Community](#Community)
  * [Motivation](#Motivation)
  * [Overview](#Overview)
  * [Test Execution](#TestExecution)
@@ -41,6 +42,22 @@ To compile on Windows, run:
 ~~~
 
 This code has been tested on Linux (Ubuntu) and Windows using VC++7 and VC++8.
+
+## Community
+
+If you have questions about Cmockery, use the following resources:
+
+* Stack Overflow: use the
+  [`cmockery`](https://stackoverflow.com/questions/tagged/cmockery) tag
+* Mailing list: **cmockery (at) googlegroups.com**
+  ([archives](https://groups.google.com/group/cmockery))
+
+  To join with a Google account, use the
+  [web UI](https://groups.google.com/forum/#!forum/cmockery/join); to
+  subscribe/unsubscribe with an arbitrary email address, send an email to:
+
+  * cmockery+subscribe (at) googlegroups.com
+  * cmockery+unsubscribe (at) googlegroups.com
 
 ## <a name="Motivation"></a>Motivation
 
