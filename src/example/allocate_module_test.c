@@ -22,7 +22,7 @@ extern void leak_memory();
 extern void buffer_overflow();
 extern void buffer_underflow();
 
-// Test case that fails as leak_memory() leaks a dynamically allocated block.
+// Test case that fails as leak_memory() leaks a dynamically-allocated block.
 void leak_memory_test(void **state) {
     leak_memory();
 }
