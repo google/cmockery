@@ -250,7 +250,7 @@ caused the assert failure.  Cmockery's type specific assert macros,
 caused the assertion failure which increases data visibility aiding
 debugging of failing test cases.
 
-#### <a name="UsingAssertEqualMacros></a>Using `assert_{type}_equal()` macros
+#### <a name="UsingAssertEqualMacros"></a>Using `assert_{type}_equal()` macros
 
 [`assert_macro.c`](src/example/assert_macro.c)
 
