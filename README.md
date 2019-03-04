@@ -61,42 +61,39 @@ If you have questions about Cmockery, use the following resources:
 
 ## <a name="Motivation"></a>Motivation
 
-There are a variety of C unit testing frameworks available however many of
+There are a variety of C unit testing frameworks available; however, many of
 them are fairly complex and require the latest compiler technology.  Some
 development requires the use of old compilers which makes it difficult to
-use some unit testing frameworks.  In addition many unit testing frameworks
+use some unit testing frameworks.  In addition, many unit testing frameworks
 assume the code being tested is an application or module that is targeted to
 the same platform that will ultimately execute the test.  Because of this
-assumption many frameworks require the inclusion of standard C library headers
-in the code module being tested which may collide with the custom or
+assumption, many frameworks require the inclusion of standard C library headers
+in the code module being tested, which may collide with the custom or
 incomplete implementation of the C library utilized by the code under test.
-
 
 Cmockery only requires a test application is linked with the standard C
 library which minimizes conflicts with standard C library headers.  Also,
 Cmockery tries avoid the use of some of the newer features of C compilers.
 
-
 This results in Cmockery being a relatively small library that can be used
 to test a variety of exotic code.  If a developer wishes to simply test an
-application with the latest compiler then other unit testing frameworks maybe
+application with the latest compiler, then other unit testing frameworks may be
 preferable.
 
 ## <a name="Overview"></a>Overview
 
 Cmockery tests are compiled into stand-alone executables and linked with
-the Cmockery library, the standard C library and module being tested.  Any
-symbols external to the module being tested should be mocked - replaced with 
+the Cmockery library, the standard C library, and the module being tested.  Any
+symbols external to the module being tested should be mocked - replaced with
 functions that return values determined by the test - within the test
 application.  Even though significant differences may exist between the target
 execution environment of a code module and the environment used to test the
-code the unit testing is still valid since its goal is to test the logic of a
+code, the unit testing is still valid since its goal is to test the logic of a
 code modules at a functional level and not necessarily all of its interactions
 with the target execution environment.
 
-
 It may not be possible to compile a module into a test application without
-some modification, therefore the preprocessor symbol `UNIT_TESTING` should
+some modification; therefore, the preprocessor symbol `UNIT_TESTING` should
 be defined when Cmockery unit test applications are compiled so code within the
 module can be conditionally compiled for tests.
 
@@ -109,7 +106,7 @@ table is then passed to the `run_tests()` macro to execute the tests.
 
 `run_tests()` sets up the appropriate exception / signal handlers and
 other data structures prior to running each test function.   When a unit test
-is complete `run_tests()` performs various checks to determine whether
+is complete, `run_tests()` performs various checks to determine whether
 the test succeeded.
 
 #### <a name="run_tests"></a>Using `run_tests()`
@@ -139,7 +136,7 @@ int main(int argc, char* argv[]) {
 Before a test function is executed by `run_tests()`,
 exception / signal handlers are overridden with a handler that simply
 displays an error and exits a test function if an exception occurs.  If an
-exception occurs outside of a test function, for example in Cmockery itself,
+exception occurs outside of a test function, for example, in Cmockery itself,
 the application aborts execution and returns an error code.
 
 ## <a name="FailureConditions"></a>Failure Conditions
@@ -210,7 +207,7 @@ void decrement_value(int * const value) {
 
 extern void increment_value(int * const value);
 
-/* This test case will fail but the assert is caught by run_tests() and the
+/* This test case will fail, but the assert is caught by run_tests() and the
  * next test is executed. */
 void increment_value_fail(void **state) {
     increment_value(NULL);
@@ -239,16 +236,15 @@ int main(int argc, char *argv[]) {
 
 ### <a name="AssertMacros"></a>Assert Macros
 
-Cmockery provides an assortment of assert macros that tests applications
-should use use in preference to the C standard library's assert macro.  On an
-assertion failure a Cmockery assert macro will write the failure to the
-standard error stream and signal a test failure.  Due to limitations of the
-C language the general C standard library `assert()` and Cmockery's
-`assert_true()` and `assert_false()` macros can only display the expression that
-caused the assert failure.  Cmockery's type specific assert macros,
-`assert_{type}_equal()` and `assert_{type}_not_equal()`, display the data that
-caused the assertion failure which increases data visibility aiding
-debugging of failing test cases.
+Cmockery provides an assortment of assert macros that tests should use use in
+preference to the C standard library's `assert()` macro.  On an assertion
+failure, a Cmockery assert macro will write the failure to the standard error
+stream and signal a test failure.  Due to limitations of the C language, the
+general C standard library `assert()` and Cmockery's `assert_true()` and
+`assert_false()` macros can only display the expression that caused the assert
+failure.  Cmockery's type-specific assert macros, `assert_{type}_equal()` and
+`assert_{type}_not_equal()`, display the data that caused the assertion failure
+which increases data visibility aiding debugging of failing test cases.
 
 #### <a name="UsingAssertEqualMacros"></a>Using `assert_{type}_equal()` macros
 
@@ -315,19 +311,19 @@ int main(int argc, char *argv[]) {
 
 ## <a name="DynamicMemoryAllocation"></a>Dynamic Memory Allocation
 
-To test for memory leaks, buffer overflows and underflows a module being
-tested by Cmockery should replace calls to `malloc()`, `calloc()` and
-`free()` to `test_malloc()`, `test_calloc()` and
-`test_free()` respectively.  Each time a block is deallocated using
-`test_free()` it is checked for corruption, if a corrupt block is found
+To test for memory leaks, buffer overflows, and underflows, a module being
+tested by Cmockery should replace calls to `malloc()`, `calloc()`, and
+`free()` with `test_malloc()`, `test_calloc()`, and
+`test_free()`, respectively.  Each time a block is deallocated using
+`test_free()`, it is checked for corruption. If a corrupt block is found,
 a [test failure](#FailureConditions) is signalled.  All blocks
 allocated using the `test_*()` allocation functions are tracked by the
-Cmockery library.  When a test completes if any allocated blocks (memory leaks)
-remain they are reported and a test failure is signalled.
+Cmockery library.  When a test completes, if any allocated blocks (memory leaks)
+remain, they are reported and a test failure is signalled.
 
-For simplicity Cmockery currently executes all tests in one process.
-Therefore all test cases in a test application share a single address space
-which means memory corruption from a single test case could potentially cause
+For simplicity, Cmockery currently executes all tests in one process.
+Therefore, all test cases in a test application share a single address space,
+which means that memory corruption from a single test case could potentially cause
 the test application to exit prematurely.
 
 #### <a name="UsingCmockerysAllocators"></a>Using Cmockery's Allocators
@@ -378,7 +374,7 @@ extern void leak_memory();
 extern void buffer_overflow();
 extern void buffer_underflow();
 
-// Test case that fails as leak_memory() leaks a dynamically allocated block.
+// Test case that fails as leak_memory() leaks a dynamically-allocated block.
 void leak_memory_test(void **state) {
     leak_memory();
 }
@@ -405,7 +401,6 @@ int main(int argc, char* argv[]) {
 
 ## <a name="MockFunctions"></a>Mock Functions
 
-
 A unit test should ideally isolate the function or module being tested
 from any external dependencies.  This can be performed using mock functions
 that are either statically or dynamically linked with the module being tested.
@@ -416,8 +411,7 @@ a mock function defined in the unit test.
 
 ### <a name="ReturnValues"></a>Return Values
 
-
-In order to simplify the implementation of mock functions Cmockery provides
+In order to simplify the implementation of mock functions, Cmockery provides
 functionality which stores return values for mock functions in each test
 case using `will_return()`.  These values are then returned by each mock 
 function using calls to `mock()`.
@@ -426,7 +420,7 @@ Values passed to `will_return()` are added to a queue for each function
 specified.  Each successive call to `mock()` from a function removes a
 return value from the queue.  This makes it possible for a mock function to use
 multiple calls to `mock()` to return output parameters in addition to a
-return value.  In addition this allows the specification of return values for 
+return value.  In addition, this allows the specification of return values for 
 multiple calls to a mock function.
 
 #### <a name="will_return"></a>Using `will_return()`
@@ -765,8 +759,8 @@ int main(int argc, char* argv[]) {
 
 ## <a name="Example"></a>Example
 
-A small command line calculator
-[`calculator.c`](src/example/calculator.c) application
+A small command line calculator application
+([`calculator.c`](src/example/calculator.c))
 and test application that full exercises the calculator application
-[`calculator_test.c`](src/example/calculator_test.c)
+([`calculator_test.c`](src/example/calculator_test.c))
 are provided as an example of Cmockery's features discussed in this document.

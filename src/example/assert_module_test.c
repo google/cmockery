@@ -20,7 +20,7 @@
 
 extern void increment_value(int * const value);
 
-/* This test case will fail but the assert is caught by run_tests() and the
+/* This test case will fail, but the assert is caught by run_tests() and the
  * next test is executed. */
 void increment_value_fail(void **state) {
     increment_value(NULL);
