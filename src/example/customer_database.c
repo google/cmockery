@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 #include <stddef.h>
 #include <stdio.h>
 #include <database.h>
@@ -42,3 +44,4 @@ unsigned int get_customer_id_by_name(
     }
     return (unsigned int)results[0];
 }
+/* END: docs */

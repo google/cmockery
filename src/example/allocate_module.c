@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -48,3 +50,4 @@ void buffer_underflow() {
     memory[-1] = '!';
     free(memory);
 }
+/* END: docs */

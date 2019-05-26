@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 typedef struct DatabaseConnection DatabaseConnection;
 
 /* Function that takes an SQL query string and sets results to an array of
@@ -34,4 +36,4 @@ struct DatabaseConnection {
 // Connect to a database.
 DatabaseConnection* connect_to_database(const char * const url,
                                         const unsigned int port);
-
+/* END: docs */
