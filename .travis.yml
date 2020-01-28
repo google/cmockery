@@ -12,17 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dist: xenial
+dist: bionic
 sudo: false
 language: c
 
 matrix:
   include:
     - os: linux
+      arch: amd64
       compiler: gcc
     - os: linux
+      arch: amd64
+      compiler: clang
+    - os: linux
+      arch: arm64
+      compiler: gcc
+    - os: linux
+      arch: arm64
       compiler: clang
     - os: osx
+
+  allow_failures:
+    - arch: arm64
+    - os: osx
+
+  fast_finish: true
+
+branches:
+  only:
+    - master
 
 script:
   - ./configure && make
