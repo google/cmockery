@@ -49,7 +49,7 @@
 
 // Perform an unsigned cast to LargestIntegralType.
 #define cast_to_largest_integral_type(value) \
-    ((LargestIntegralType)((unsigned)(value)))
+    ((LargestIntegralType)(value))
 
 // Retrieves a return value for the current function.
 #define mock() _mock(__func__, __FILE__, __LINE__)
