@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 #include <stdarg.h>
 #include <stddef.h>
 #include <setjmp.h>
@@ -45,3 +47,4 @@ int main(int argc, char* argv[]) {
     };
     return run_tests(tests);
 }
+/* END: docs */

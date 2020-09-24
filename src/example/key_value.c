@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,3 +54,4 @@ void sort_items_by_key() {
     qsort(key_values, number_of_key_values, sizeof(*key_values),
           key_value_compare_keys);
 }
+/* END: docs */

@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 #include <assert.h>
 
 // If unit testing is enabled override assert with mock_assert().
@@ -31,6 +33,7 @@ void increment_value(int * const value) {
 
 void decrement_value(int * const value) {
     if (value) {
-      (*value) --;
+        (*value) --;
     }
 }
+/* END: docs */

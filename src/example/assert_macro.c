@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* BEGIN: docs */
 #include <string.h>
 
 static const char* status_code_strings[] = {
@@ -35,3 +37,4 @@ unsigned int string_to_status_code(const char* const status_code_string) {
     }
     return ~0U;
 }
+/* END: docs */
